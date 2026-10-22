@@ -161,6 +161,36 @@ nav a.on{background:rgba(201,184,255,.14)}
 .meta div:nth-child(2) strong{color:#ffcba4}
 .meta div:nth-child(3) strong{color:#ffb3c6}
 .meta div:nth-child(4) strong{color:#9fcdfb}
+/* project demos */
+.dnote{font-size:14px;color:var(--mute);margin:0 0 12px}
+.demo{margin-top:20px;background:#252a40;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.demo-h{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 14px;background:#333a5a;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--mute)}
+.demo-h b{color:var(--amber);letter-spacing:.1em;font-weight:700}
+.demo-b{padding:16px}
+.dbtn{font-family:var(--mono);font-size:12px;font-weight:700;padding:8px 14px;border-radius:6px;border:1px solid var(--amber);background:var(--amber);color:#2b3048;cursor:pointer}
+.dbtn.ghost{background:transparent;color:var(--amber)}
+.dbtn:disabled{opacity:.5;cursor:default}
+.ftab{font-family:var(--mono);font-size:12px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--mute);cursor:pointer}
+.ftab[aria-pressed="true"]{border-color:var(--amber);color:var(--amber);background:rgba(201,184,255,.14)}
+.steps{display:grid;gap:8px;margin-top:14px}
+.step{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);border-radius:8px;opacity:.45;transition:opacity .4s,border-color .4s,background .4s}
+.step.on{opacity:1;border-color:var(--green);background:rgba(168,230,207,.08)}
+.step i{font-style:normal;font-family:var(--mono);font-size:12px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);flex:none}
+.step.on i{background:var(--green);color:#2b3048;border-color:var(--green)}
+.step b{display:block;font-size:14px;font-weight:500}
+.step span{font-size:13px;color:var(--mute)}
+.rec{margin-top:12px;font-family:var(--mono);font-size:12px;background:#1d2134;border:1px dashed var(--line);border-radius:8px;padding:12px;color:var(--green);overflow-x:auto}
+.bk{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.bk label{display:block;font-family:var(--mono);font-size:11px;color:var(--amber);margin-bottom:4px;letter-spacing:.08em;text-transform:uppercase}
+.bk select{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-family:var(--mono);font-size:13px}
+.out{font-family:var(--mono);font-size:13px;color:var(--green);margin-top:12px;min-height:20px}
+.arch{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--mute)}
+.arch span{border:1px solid var(--line);border-radius:6px;padding:4px 10px}
+.arch em{font-style:normal;color:var(--amber)}
+.frow{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);margin-top:8px;font-family:var(--mono);font-size:13px}
+.frow .acts{display:flex;gap:6px}
+.ftabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;align-items:center}
+.ftabs .sp{flex:1}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
   .reveal{opacity:1;transform:none}
@@ -235,6 +265,27 @@ nav a.on{background:rgba(201,184,255,.14)}
         <button class="node" type="button" aria-pressed="false" data-i="Amazon S3 holds the forensic evidence."><small>5 · preserve</small>S3</button>
       </div>
       <div id="pipeInfo" role="status" aria-live="polite">Select a stage ↑</div>
+      <div class="demo">
+        <div class="demo-h"><b>DEMO · INCIDENT FLOW</b><span>simulated · illustrative sample data</span></div>
+        <div class="demo-b">
+          <p class="dnote">Simulate an IAM user being created and watch each CCSI stage respond.</p>
+          <button class="dbtn" id="runA" type="button">Run detection demo</button>
+          <div class="steps" id="stepsA" role="status" aria-live="polite">
+            <div class="step"><i>1</i><div><b>CloudTrail</b><span>Logs the CreateUser API call.</span></div></div>
+            <div class="step"><i>2</i><div><b>EventBridge</b><span>A rule matches the IAM user creation event.</span></div></div>
+            <div class="step"><i>3</i><div><b>Node.js / Express + DynamoDB</b><span>The backend opens a structured incident record.</span></div></div>
+            <div class="step"><i>4</i><div><b>Amazon S3</b><span>Forensic evidence is stored for the investigation.</span></div></div>
+          </div>
+          <pre class="rec" id="recA" hidden>{
+  "incidentId": "DEMO-001",
+  "eventName": "CreateUser",
+  "eventSource": "iam.amazonaws.com",
+  "detectedBy": "EventBridge rule",
+  "status": "open",
+  "evidence": "stored in S3"
+}</pre>
+        </div>
+      </div>
       <ul>
         <li>Implemented AWS CloudTrail auditing and Amazon EventBridge rules to detect security events such as IAM user creation.</li>
         <li>Built a Node.js/Express backend with DynamoDB for structured incident records and S3 for forensic evidence storage.</li>
@@ -246,11 +297,25 @@ nav a.on{background:rgba(201,184,255,.14)}
       <span class="tag">PROJECT 02</span>
       <h3>Bicycle Renting System</h3>
       <div class="org">Bicycle booking &amp; rental management platform · O7 Services, Jalandhar</div>
+      <p class="dnote">A multi-page MEAN stack web application for managing bicycle bookings and rentals, with user authentication. Try a mock of the booking flow below.</p>
       <ul>
         <li>Designed a multi-page MEAN stack web application for managing bicycle bookings and rentals.</li>
         <li>Configured user authentication using Express.js and MongoDB.</li>
         <li>Deployed the backend on Microsoft Azure and the frontend on cPanel, including domain configuration.</li>
       </ul>
+      <div class="demo">
+        <div class="demo-h"><b>DEMO · BOOKING FLOW</b><span>mock UI · sample data</span></div>
+        <div class="demo-b">
+          <div class="bk">
+            <div><label for="bkType">Bicycle</label><select id="bkType"><option>City bike</option><option>Mountain bike</option><option>Road bike</option></select></div>
+            <div><label for="bkDays">Duration</label><select id="bkDays"><option value="1">1 day</option><option value="3">3 days</option><option value="7">7 days</option></select></div>
+            <button class="dbtn" id="bkGo" type="button">Book now</button>
+          </div>
+          <div class="out" id="bkOut" role="status" aria-live="polite">Choose a bicycle and press Book now.</div>
+          <div id="bkList"></div>
+          <div class="arch" aria-label="Deployment layout"><span>Frontend · cPanel</span><em aria-hidden="true">→</em><span>Backend · Microsoft Azure</span><em aria-hidden="true">→</em><span>MongoDB</span></div>
+        </div>
+      </div>
       <div class="chips"><span>MongoDB</span><span>Express.js</span><span>Angular</span><span>Node.js</span><span>Azure</span><span>cPanel</span></div>
     </article>
 
@@ -258,10 +323,24 @@ nav a.on{background:rgba(201,184,255,.14)}
       <span class="tag">PROJECT 03</span>
       <h3>EduVault</h3>
       <div class="org">Academic File Management Platform</div>
+      <p class="dnote">A Flask-based platform with file upload, favorites and recovery, integrated with AWS and Google Authentication for cloud-native deployment. Try a mock of those features below.</p>
       <ul>
         <li>Developed a Flask-based platform with file upload, favorites, and recovery features.</li>
         <li>Integrated AWS S3, DynamoDB, IAM, EC2, and Google Authentication for cloud-native deployment.</li>
       </ul>
+      <div class="demo">
+        <div class="demo-h"><b>DEMO · FILE MANAGER</b><span>mock UI · sample file names</span></div>
+        <div class="demo-b">
+          <div class="ftabs" role="group" aria-label="File views">
+            <button class="ftab" type="button" data-v="all" aria-pressed="true">All files</button>
+            <button class="ftab" type="button" data-v="fav" aria-pressed="false">Favorites</button>
+            <button class="ftab" type="button" data-v="rec" aria-pressed="false">Recovery</button>
+            <span class="sp"></span>
+            <button class="dbtn" id="fvUp" type="button">Upload sample file</button>
+          </div>
+          <div id="fvList" role="status" aria-live="polite"></div>
+        </div>
+      </div>
       <div class="chips"><span>Flask</span><span>S3</span><span>DynamoDB</span><span>IAM</span><span>EC2</span><span>Google Auth</span></div>
     </article>
   </div>
@@ -425,6 +504,66 @@ nav a.on{background:rgba(201,184,255,.14)}
     },{rootMargin:'-45% 0px -50% 0px'});
     document.querySelectorAll('[data-sec]').forEach(function(s){so.observe(s)});
   }
+
+  /* ---------- demo A: CCSI incident flow ---------- */
+  var runA=document.getElementById('runA'),stepsA=document.querySelectorAll('#stepsA .step'),recA=document.getElementById('recA');
+  runA.addEventListener('click',function(){
+    runA.disabled=true;recA.hidden=true;
+    stepsA.forEach(function(s){s.classList.remove('on')});
+    var i=0;
+    (function next(){
+      if(i<stepsA.length){stepsA[i].classList.add('on');i++;setTimeout(next,reduce?0:650)}
+      else{recA.hidden=false;runA.disabled=false;runA.textContent='Run again'}
+    })();
+  });
+
+  /* ---------- demo B: booking flow ---------- */
+  var bks=[],bkId=0,bkOut=document.getElementById('bkOut'),bkList=document.getElementById('bkList');
+  function renderB(){
+    bkList.textContent='';
+    if(!bks.length){var p=document.createElement('p');p.className='dnote';p.style.marginTop='12px';p.textContent='No rentals yet.';bkList.appendChild(p);return}
+    bks.forEach(function(b){
+      var r=document.createElement('div');r.className='frow';
+      var t=document.createElement('span');t.textContent='#'+b.id+' · '+b.type+' · '+b.days+(b.days==='1'?' day':' days');
+      var c=document.createElement('button');c.type='button';c.className='dbtn ghost';c.textContent='Cancel';c.setAttribute('aria-label','Cancel booking '+b.id);
+      c.addEventListener('click',function(){bks=bks.filter(function(x){return x!==b});renderB();bkOut.textContent='Booking #'+b.id+' cancelled.'});
+      r.appendChild(t);r.appendChild(c);bkList.appendChild(r);
+    });
+  }
+  document.getElementById('bkGo').addEventListener('click',function(){
+    var type=document.getElementById('bkType').value,days=document.getElementById('bkDays').value;
+    bkId++;bks.push({id:bkId,type:type,days:days});renderB();
+    bkOut.textContent='✓ Booking #'+bkId+' confirmed: '+type+' for '+days+(days==='1'?' day.':' days.');
+  });
+  renderB();
+
+  /* ---------- demo C: file manager ---------- */
+  var files=[{n:'Lecture-Notes.pdf',f:false,d:false},{n:'Assignment-1.docx',f:true,d:false},{n:'Lab-Report.pdf',f:false,d:false}],fview='all',fup=0;
+  var fvList=document.getElementById('fvList'),ftabs=document.querySelectorAll('.ftab');
+  function fbtn(label,aria,fn,ghost){var b=document.createElement('button');b.type='button';b.className='dbtn'+(ghost?' ghost':'');b.textContent=label;b.setAttribute('aria-label',aria);b.addEventListener('click',fn);return b}
+  function renderC(){
+    fvList.textContent='';
+    var shown=files.filter(function(x){return fview==='rec'?x.d:(!x.d&&(fview==='all'||x.f))});
+    if(!shown.length){var p=document.createElement('p');p.className='dnote';p.style.marginTop='12px';p.textContent=fview==='rec'?'Nothing to recover.':(fview==='fav'?'No favorites yet.':'No files.');fvList.appendChild(p);return}
+    shown.forEach(function(x){
+      var r=document.createElement('div');r.className='frow';
+      var t=document.createElement('span');t.textContent=(x.f&&!x.d?'★ ':'')+x.n;
+      var a=document.createElement('div');a.className='acts';
+      if(x.d){a.appendChild(fbtn('Restore','Restore '+x.n,function(){x.d=false;renderC()},false))}
+      else{
+        a.appendChild(fbtn(x.f?'Unfavorite':'Favorite',(x.f?'Remove from favorites: ':'Add to favorites: ')+x.n,function(){x.f=!x.f;renderC()},true));
+        a.appendChild(fbtn('Delete','Delete '+x.n,function(){x.d=true;renderC()},true));
+      }
+      r.appendChild(t);r.appendChild(a);fvList.appendChild(r);
+    });
+  }
+  ftabs.forEach(function(b){b.addEventListener('click',function(){
+    fview=b.getAttribute('data-v');
+    ftabs.forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false')});
+    renderC();
+  })});
+  document.getElementById('fvUp').addEventListener('click',function(){fup++;files.push({n:'Sample-File-'+fup+'.pdf',f:false,d:false});if(fview==='rec'||fview==='fav'){fview='all';ftabs.forEach(function(x){x.setAttribute('aria-pressed',x.getAttribute('data-v')==='all'?'true':'false')})}renderC()});
+  renderC();
 
   var form=document.getElementById('form'),note=document.getElementById('fnote');
   form.addEventListener('submit',function(ev){
